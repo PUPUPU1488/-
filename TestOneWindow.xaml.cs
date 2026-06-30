@@ -26,21 +26,23 @@ namespace Экзамен
         {
             InitializeComponent();
         }
-
+        private void UpdateDisplay(string value)
+        {
+            DisplayBlock.Content = value;
+        }
         private async void Start_Click(object sender, RoutedEventArgs e)
         {
             if (!Int32.TryParse(CountInput.Text, out int count) || count < 5 || count > 9)
             {
                 ErrorLabel.Content = "Ошибка! Введите целое число от 5 до 9.";
-                ErrorLabel.Visibility = Visibility.Visible; // Показываем ошибку на экране
+                ErrorLabel.Visibility = Visibility.Visible;
                 return;
             }
             ErrorLabel.Visibility = Visibility.Collapsed;
             generatedNumbers = facade.GenerateNumbers(count);
-
             AnswerInput.Text = "";
             ResultLabel.Content = "Запоминайте числа...";
-            await facade.ShowNumbersAsync(generatedNumbers, intervalSeconds, (string val) => DisplayBlock.Content = val);
+            await facade.ShowNumbersAsync(generatedNumbers, intervalSeconds, UpdateDisplay);
             DisplayBlock.Content = "Вводите ответ!";
         }
 

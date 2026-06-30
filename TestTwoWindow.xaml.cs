@@ -26,12 +26,17 @@ namespace Экзамен
             InitializeComponent();
         }
 
+        private void UpdateDisplay(string value)
+        {
+            DisplayBlock.Content = value;
+        }
         private async void Start_Click(object sender, RoutedEventArgs e)
         {
+            ErrorLabel.Visibility = Visibility.Collapsed;
             generatedNumbers = facade.GenerateNumbers(20);
             AnswerInput.Text = "";
             ResultLabel.Content = "Запоминайте числа...";
-            await facade.ShowNumbersAsync(generatedNumbers, 6.0, (string val) => DisplayBlock.Content = val);
+            await facade.ShowNumbersAsync(generatedNumbers, 6.0, UpdateDisplay);
             DisplayBlock.Content = "Вводите ответ!";
         }
 
